@@ -1,0 +1,88 @@
+server:
+  port: 8888
+
+
+#error:
+#  include-stacktrace: never
+
+app:
+  api-prefix: /api/v1
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: product-service
+          uri: http://localhost:5007
+          predicates:
+            - Path=${app.api-prefix}/admin/products/**, ${app.api-prefix}/products/**
+          filters:
+            - StripPrefix=2
+
+        - id: category-service
+          uri: http://localhost:5007
+          predicates:
+            - Path=${app.api-prefix}/admin/categories/**, ${app.api-prefix}/categories/**
+          filters:
+            - StripPrefix=2
+
+        - id: brand-service
+          uri: http://localhost:5007
+          predicates:
+            - Path=${app.api-prefix}/admin/brands/**, ${app.api-prefix}/brands/**
+          filters:
+            - StripPrefix=2
+
+        - id: attribute-service
+          uri: http://localhost:5007
+          predicates:
+            - Path=${app.api-prefix}/admin/attributes/**, ${app.api-prefix}/attributes/**
+          filters:
+            - StripPrefix=2
+
+        - id: authentication-service
+          uri: http://localhost:5004
+          predicates:
+            - Path=${app.api-prefix}/auth/**
+          filters:
+            - StripPrefix=2
+
+        - id: user-service
+          uri: http://localhost:5004
+          predicates:
+            - Path=${app.api-prefix}/admin/users/**, ${app.api-prefix}/users/**
+          filters:
+            - StripPrefix=2
+
+        - id: account-service
+          uri: http://localhost:5004
+          predicates:
+            - Path=${app.api-prefix}/account/**
+          filters:
+            - StripPrefix=2
+
+        - id: permission-service
+          uri: http://localhost:5004
+          predicates:
+            - Path=${app.api-prefix}/admin/permissions/**
+          filters:
+            - StripPrefix=2
+
+        - id: role-service
+          uri: http://localhost:5004
+          predicates:
+            - Path=${app.api-prefix}/admin/roles/**
+          filters:
+            - StripPrefix=2
+
+        - id: rating-service
+          uri: http://localhost:5008
+          predicates:
+            - Path=${app.api-prefix}/admin/ratings/**, ${app.api-prefix}/ratings/**, ${app.api-prefix}/add-ratings/**
+          filters:
+            - StripPrefix=2
+
+
+
